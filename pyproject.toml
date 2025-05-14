@@ -1,0 +1,22 @@
+[project]
+name = "zoomcamp"
+version = "0.1.0"
+description = "Building Machine Learning Systems"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "awscurl>=0.36",
+    "boto3>=1.36.25",
+    "click>=8.1.8",
+    "geventhttpclient>=2.3.3",
+    "httpx>=0.28.1",
+    "ipykernel>=6.29.5",
+    "jupyter>=1.1.1",
+    "numpy>=1.26.4",
+    "pandas>=2.2.3",
+    "pylint>=3.3.2",
+    "pytest>=8.3.4",
+    "scikit-learn==1.6.1",
+    "notebook>=7.0.0",
+    "pyarrow",
+]
