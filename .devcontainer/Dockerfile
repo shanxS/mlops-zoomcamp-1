@@ -4,6 +4,7 @@ FROM mcr.microsoft.com/devcontainers/python:1-3.12-bullseye as base
 WORKDIR /workspace
 
 RUN apt-get update
+RUN apt-get install -y docker.io 
 RUN pip install --upgrade pip
 
 # Install uv

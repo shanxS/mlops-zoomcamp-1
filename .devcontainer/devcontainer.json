@@ -2,12 +2,20 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
 	"name": "MLOps zoomcamp",
+
 	"build": {
         "dockerfile": "Dockerfile"
-    }
+    },
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+	"features": {
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+	},
+
+	// allows your devcontainer to communicate with the host's Docker daemon
+	"mounts": [
+	"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
