@@ -16,7 +16,7 @@ dependencies = [
     "pandas>=2.2.3",
     "pylint>=3.3.2",
     "pytest>=8.3.4",
-    "scikit-learn==1.6.1",
+    "scikit-learn==1.4.2", # looks like the project needs this for mean_squared_error(..., ..., squared=False)
     "notebook>=7.0.0",
     "pyarrow==19.0.0",
     "pipdeptree>=2.17.0",

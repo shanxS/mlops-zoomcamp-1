@@ -1,3 +1,6 @@
+'''
+Ran with: uv run -- python preprocess_data.py --raw_data_path "/workspaces/mlops-zoomcamp-1/datasets/raw" --dest_path "/workspaces/mlops-zoomcamp-1/datasets/02"
+'''
 import os
 import pickle
 import click

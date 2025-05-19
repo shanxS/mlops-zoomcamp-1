@@ -13,9 +13,10 @@
 	},
 
 	// allows your devcontainer to communicate with the host's Docker daemon
+	// source path is non standard since my mac installation of Docker Desktop
 	"mounts": [
-	"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
-	],
+	"source=/Users/sha/.docker/run/docker.sock,target=/var/run/docker.sock,type=bind"
+	]
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
