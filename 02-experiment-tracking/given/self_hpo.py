@@ -1,6 +1,8 @@
 '''
-Run with: uv run -- python hpo.py --data_path /workspaces/mlops-zoomcamp-1/datasets/02
+Modified this file to create my own way of nesting runs
+Run with: uv run -- python self_hpo.py --data_path /workspaces/mlops-zoomcamp-1/datasets/02
 '''
+    
 import os
 import pickle
 import click
@@ -12,7 +14,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
 
 mlflow.set_tracking_uri("http://host.docker.internal:5001")
-mlflow.set_experiment("random-forest-hyperopt")
+mlflow.set_experiment("02-random-forest-hyperopt")
 
 
 def load_pickle(filename: str):
@@ -43,7 +45,7 @@ def run_optimization(data_path: str, num_trials: int):
         y_pred = rf.predict(X_val)
         rmse = mean_squared_error(y_val, y_pred, squared=False)
 
-        with mlflow.start_run():
+        with mlflow.start_run(nested=True):
             mlflow.log_params(params)
             mlflow.log_metric("rmse", rmse) # type: ignore
 
@@ -58,14 +60,15 @@ def run_optimization(data_path: str, num_trials: int):
     }
 
     rstate = np.random.default_rng(42)  # for reproducible results
-    fmin(
-        fn=objective,
-        space=search_space,
-        algo=tpe.suggest,
-        max_evals=num_trials,
-        trials=Trials(),
-        rstate=rstate
-    )
+    with mlflow.start_run():
+        fmin(
+            fn=objective,
+            space=search_space,
+            algo=tpe.suggest,
+            max_evals=num_trials,
+            trials=Trials(),
+            rstate=rstate
+        )
 
 
 if __name__ == '__main__':
