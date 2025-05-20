@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  mlflow:
+    build:
+      context: ./mlflow
+    image: mlflow-dev
+    container_name: mlflow-server
+    ports:
+      - "5001:5000"
+    volumes:
+      - /tmp/mlflow-server/mlruns:/mlflow/mlruns
+      - /tmp/mlflow-server/mlartifacts:/mlflow/mlartifacts
