@@ -10,3 +10,32 @@ services:
     volumes:
       - /tmp/mlflow-server/mlruns:/mlflow/mlruns
       - /tmp/mlflow-server/mlartifacts:/mlflow/mlartifacts
+    deploy:
+      resources:
+        limits:
+          # Maximum memory the container can use. If it tries to use more, it will be killed.
+          # You can use units like 'b', 'k', 'm', 'g' (bytes, kilobytes, megabytes, gigabytes)
+          memory: 3g # Example: Limit to 2 Gigabytes
+        reservations:
+          # Guaranteed memory for the container. Docker tries to ensure this much is available.
+          # This is useful for critical services that need a baseline amount of memory.
+          memory: 512m # Example: Reserve 512 Megabytes
+  mage:
+    build: 
+      context: ./mage
+    image: mage-dev
+    container_name: mage-server
+    ports:
+      - "6789:6789"
+    volumes:
+      - /Users/sha/ws/code/mlops-zoomcamp-1/03-orchestration:/home/src
+    deploy:
+      resources:
+        limits:
+          # Maximum memory the container can use. If it tries to use more, it will be killed.
+          # You can use units like 'b', 'k', 'm', 'g' (bytes, kilobytes, megabytes, gigabytes)
+          memory: 10g # Example: Limit to 2 Gigabytes
+        reservations:
+          # Guaranteed memory for the container. Docker tries to ensure this much is available.
+          # This is useful for critical services that need a baseline amount of memory.
+          memory: 1g # Example: Reserve 512 Megabytes
