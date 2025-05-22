@@ -11,3 +11,4 @@ RUN pip install --upgrade pip
 RUN pipx install uv
 ENV UV_HTTP_TIMEOUT=300 
 ENV UV_LINK_MODE=copy
+ENV UV_ENV_FILE=/workspaces/mlops-zoomcamp-1/infra/env.sh

@@ -15,14 +15,14 @@
 	// allows your devcontainer to communicate with the host's Docker daemon
 	// source path is non standard since my mac installation of Docker Desktop
 	"mounts": [
-	"source=/Users/sha/.docker/run/docker.sock,target=/var/run/docker.sock,type=bind"
-	]
+		"source=/Users/sha/.docker/run/docker.sock,target=/var/run/docker.sock,type=bind"
+	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "pip3 install --user -r requirements.txt",
+	"postCreateCommand": "sudo chown root:docker /var/run/docker.sock && sudo chmod 660 /var/run/docker.sock"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
