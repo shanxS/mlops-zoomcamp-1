@@ -31,4 +31,7 @@ dependencies = [
     "webcolors==24.11.1",
     "hyperopt==0.2.7",
     "mlflow==2.20.4",
+
+    # for hw3
+    "prefect==3.2.3",
 ]

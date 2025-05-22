@@ -13,13 +13,16 @@ services:
     deploy:
       resources:
         limits:
-          # Maximum memory the container can use. If it tries to use more, it will be killed.
-          # You can use units like 'b', 'k', 'm', 'g' (bytes, kilobytes, megabytes, gigabytes)
-          memory: 3g # Example: Limit to 2 Gigabytes
+          memory: 3g
         reservations:
-          # Guaranteed memory for the container. Docker tries to ensure this much is available.
-          # This is useful for critical services that need a baseline amount of memory.
-          memory: 512m # Example: Reserve 512 Megabytes
+          memory: 512m
+  prefect:
+    build:
+      context: ./prefect
+    image: prefect-dev
+    container_name: prefect-server
+    ports:
+      - "4200:4200"
   mage:
     build: 
       context: ./mage
@@ -32,10 +35,6 @@ services:
     deploy:
       resources:
         limits:
-          # Maximum memory the container can use. If it tries to use more, it will be killed.
-          # You can use units like 'b', 'k', 'm', 'g' (bytes, kilobytes, megabytes, gigabytes)
-          memory: 10g # Example: Limit to 2 Gigabytes
+          memory: 10g
         reservations:
-          # Guaranteed memory for the container. Docker tries to ensure this much is available.
-          # This is useful for critical services that need a baseline amount of memory.
-          memory: 1g # Example: Reserve 512 Megabytes
+          memory: 1g
