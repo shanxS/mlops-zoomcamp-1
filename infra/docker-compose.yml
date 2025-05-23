@@ -23,18 +23,3 @@ services:
     container_name: prefect-server
     ports:
       - "4200:4200"
-  mage:
-    build: 
-      context: ./mage
-    image: mage-dev
-    container_name: mage-server
-    ports:
-      - "6789:6789"
-    volumes:
-      - /Users/sha/ws/code/mlops-zoomcamp-1/03-orchestration:/home/src
-    deploy:
-      resources:
-        limits:
-          memory: 10g
-        reservations:
-          memory: 1g
