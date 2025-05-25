@@ -15,14 +15,10 @@ from prefect import flow, get_run_logger, tags
 def hello(name: str = "Marvin"):
     get_run_logger().info(f"Hello, {name}!")
 
-
 if __name__ == "__main__":
-    # Run the flow
-    hello()  # Output: "Hello, Marvin!"
-
-    # Run the flow with a different argument
-    hello("Arthur")  # Output: "Hello, Arthur!"
-
-    # Run the flow with a "local" tag
-    with tags("local"):
-        hello()
+    flow_name = "hello-world-flow"
+    hello.deploy(
+        name=flow_name,
+        work_pool_name="docker-pool",
+        image=f"nexus4shashank/mlopszoomcamp:{flow_name}"
+    )
