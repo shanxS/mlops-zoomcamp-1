@@ -3,6 +3,7 @@ from prefect.cache_policies import INPUTS
 from prefect.docker import DockerImage
 import pandas as pd
 from sklearn.feature_extraction import DictVectorizer
+from sklearn.linear_model import LinearRegression
 
 @task(cache_policy=INPUTS)
 def data_loader(url: str = 'https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2023-03.parquet'):
@@ -20,22 +21,27 @@ def transform_data(df: pd.DataFrame):
     df.duration = df.duration.dt.total_seconds() / 60
     df = df[(df.duration >= 1) & (df.duration <= 60)]
     
-    numerical = ['trip_distance']
     categorical = ['PULocationID', 'DOLocationID']
-    
     df[categorical] = df[categorical].astype(str)
-    
-    dicts = df[categorical + numerical].to_dict(orient='records')
-    result = dv.fit_transform(dicts)
+    dicts = df[categorical].to_dict(orient='records')
+    X = dv.fit_transform(dicts)
 
-    get_run_logger().info(f"[Q4] num rows:{df.shape[0]} ")
+    get_run_logger().info(f"[Q4] num rows:{X.shape} ")
 
-    return result
+    return X, df['duration']
+
+@task(cache_policy=INPUTS)
+def train_model(X, y):
+    model = LinearRegression()
+    model.fit(X, y)
+
+    get_run_logger().info(f"[Q5] intercept of trained model:{model.intercept_} ")
 
 @flow
 def HW3():
     df = data_loader()
-    transform_data(df)
+    X,y = transform_data(df)
+    train_model(X,y)
 
 if __name__ == "__main__":
     flow_name = "hw-3"

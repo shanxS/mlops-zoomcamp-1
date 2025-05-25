@@ -1,9 +1,4 @@
 FROM prefecthq/prefect:3.4.0-python3.12
-
-COPY . /opt/prefect/03-orchestration/
-
-RUN apt-get update
-RUN pip install --upgrade pip
 RUN pip install "pyarrow==19.0.0" "pandas>=2.2.3" "scikit-learn==1.4.2"
-
+COPY . /opt/prefect/03-orchestration/
 WORKDIR /opt/prefect/03-orchestration/
