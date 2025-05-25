@@ -34,4 +34,7 @@ dependencies = [
 
     # for hw3
     "prefect==3.2.3",
+
+    # for excel in pd
+    "openpyxl>=3.1.2",
 ]
