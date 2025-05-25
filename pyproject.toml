@@ -33,5 +33,6 @@ dependencies = [
     "mlflow==2.20.4",
 
     # for hw3
-    "prefect==3.2.3",
+    "prefect==3.4.0",
+    "prefect-docker==0.6.5",
 ]
