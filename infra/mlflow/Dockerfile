@@ -2,8 +2,8 @@ FROM mcr.microsoft.com/devcontainers/python:1-3.12-bullseye
 
 WORKDIR /app
 
-# VOLUME /mlflow/mlruns
-# VOLUME /mlflow/mlartifacts
+VOLUME /mlflow/mlruns
+VOLUME /mlflow/mlartifacts
 
 EXPOSE 5000
 
