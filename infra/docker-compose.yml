@@ -8,8 +8,8 @@ services:
     ports:
       - "5001:5000"
     volumes:
-      - /tmp/mlflow-server/mlruns:/mlflow/mlruns
-      - /tmp/mlflow-server/mlartifacts:/mlflow/mlartifacts
+      - /tmp/mlflow/mlartifacts:/mlflow/mlartifacts
+      - /tmp/mlflow/runs:/mlflow/mlruns
     deploy:
       resources:
         limits:
