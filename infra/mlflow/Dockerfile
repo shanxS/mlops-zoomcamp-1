@@ -15,4 +15,4 @@ RUN apt-get update
 RUN pip install --upgrade pip
 RUN pip install mlflow==2.20.4
 
-CMD mlflow server --host 0.0.0.0 --port 5000 --artifacts-destination file:///mlflow/mlruns  --dev
+CMD mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri file:///mlflow/mlruns --artifacts-destination file:///mlflow/mlartifacts  --dev
