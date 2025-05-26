@@ -1,5 +1,6 @@
 from typing import List
 from prefect import flow, get_run_logger, task
+from prefect.context import get_run_context
 from prefect.cache_policies import INPUTS
 from prefect.docker import DockerImage
 import pandas as pd
@@ -9,11 +10,7 @@ import mlflow
 from mlflow.models import infer_signature
 import click
 
-class MyModel(mlflow.pyfunc.PythonModel):
-    def predict(self, context, model_input: List[str], params=None) -> List[str]:
-        return ["empty list"]
-
-@task(cache_policy=INPUTS)
+@task
 def data_loader(url: str = 'https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2023-03.parquet'):
     mlflow.log_param("data_url", url)
     df = pd.read_parquet(url)
@@ -21,7 +18,7 @@ def data_loader(url: str = 'https://d37ci6vzurychx.cloudfront.net/trip-data/yell
     mlflow.log_metric("input_length", df.shape[0])
     return df
 
-@task(cache_policy=INPUTS)
+@task
 def transform_data(df: pd.DataFrame):
     dv = DictVectorizer()
     
@@ -43,29 +40,28 @@ def transform_data(df: pd.DataFrame):
 @task
 def train_model(X, y):
     
-    # signature = infer_signature(X, y)
-    # model = LinearRegression()
-    # model.fit(X, y)
-    # get_run_logger().info(f"[Q5] intercept of trained model:{model.intercept_} ")
-    # mlflow.log_metric("intercept", model.intercept_) # type: ignore
+    signature = infer_signature(X, y)
+    model = LinearRegression()
+    model.fit(X, y)
+    get_run_logger().info(f"[Q5] intercept of trained model:{model.intercept_} ")
+    mlflow.log_metric("intercept", model.intercept_) # type: ignore
 
-    get_run_logger().info(f"MLFLow:{mlflow.get_tracking_uri()} and {mlflow.get_artifact_uri()}")
-    mlflow.pyfunc.log_model(
+    mlflow.sklearn.log_model(
+        model, 
         artifact_path="model",
-        python_model=MyModel(), 
-        
+        signature=signature
     )
 
 @flow
 def HW3():
     mlflow.set_experiment("HW3")
-    with mlflow.start_run():
+    with mlflow.start_run(run_name=get_run_context().flow_run.name): # type: ignore
         df = data_loader()
         X,y = transform_data(df)
         train_model(X,y)
 
 @click.command()
-@click.option("--remote_deploy", is_flag=True, help="Deploy to remote")
+@click.option("--remote-deploy", is_flag=True, help="Deploy to remote")
 def start(remote_deploy: bool):
     if remote_deploy:
         flow_name = "hw-3"
