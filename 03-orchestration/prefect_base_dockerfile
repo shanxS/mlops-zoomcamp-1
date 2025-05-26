@@ -1,4 +1,10 @@
 FROM prefecthq/prefect:3.4.0-python3.12
-RUN pip install "pyarrow==19.0.0" "pandas>=2.2.3" "scikit-learn==1.4.2"
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev --only-group prod
+
+ENV MLFLOW_TRACKING_URI="http://host.docker.internal:5001"
+
 COPY . /opt/prefect/03-orchestration/
 WORKDIR /opt/prefect/03-orchestration/
