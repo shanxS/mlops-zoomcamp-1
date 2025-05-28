@@ -23,3 +23,5 @@ services:
     container_name: prefect-server
     ports:
       - "4200:4200"
+    volumes:
+      - /tmp/prefect:/root/.prefect
