@@ -1,10 +1,12 @@
 FROM prefecthq/prefect:3.4.0-python3.12
 
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+WORKDIR /opt/prefect/03-orchestration/
+
+# uv is preinstalled
 COPY pyproject.toml uv.lock ./
-RUN uv sync --frozen --no-dev --only-group prod
+RUN uv pip install --group prod
 
 ENV MLFLOW_TRACKING_URI="http://host.docker.internal:5001"
 
-COPY . /opt/prefect/03-orchestration/
-WORKDIR /opt/prefect/03-orchestration/
+COPY ./03-orchestration/ /opt/prefect/03-orchestration/
+
