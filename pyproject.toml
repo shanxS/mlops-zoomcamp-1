@@ -27,6 +27,10 @@ dependencies = [
     # for hw3
     "prefect==3.4.0",
     "prefect-docker==0.6.5",
+
+    # for project
+    "openpyxl==3.1.5",
+    "matplotlib==3.9.2",
 ]
 
 [dependency-groups]
