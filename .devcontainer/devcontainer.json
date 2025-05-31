@@ -18,6 +18,11 @@
 		"source=/Users/sha/.docker/run/docker.sock,target=/var/run/docker.sock,type=bind"
 	],
 
+	"containerEnv": {
+		"PREFECT_API_URL": "http://host.docker.internal:4200/api",
+		"MLFLOW_TRACKING_URI": "http://host.docker.internal:5001"
+	},
+
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 
