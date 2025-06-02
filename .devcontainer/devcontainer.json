@@ -22,14 +22,14 @@
 		// Ensure devcontainer and prefect are on same network: docker inspect infra_default
 		// If not, add them: docker network connect infra_default $CONTAINER_ID
 		"PREFECT_API_URL": "http://prefect-server:4200/api",
-		"MLFLOW_TRACKING_URI": "http://host.docker.internal:5001"
+		"MLFLOW_TRACKING_URI": "http://host.docker.internal:5001",
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "sudo chown root:docker /var/run/docker.sock && sudo chmod 660 /var/run/docker.sock"
+	"postCreateCommand": "sudo chown root:docker /var/run/docker.sock && sudo chmod 660 /var/run/docker.sock && git config --global user.email 's@s' && git config --global user.name 'shanxS'"
 
 	// Configure tool-specific properties.
 	// "customizations": {},

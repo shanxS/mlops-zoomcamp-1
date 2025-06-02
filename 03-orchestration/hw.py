@@ -6,6 +6,7 @@ from prefect.docker import DockerImage
 import pandas as pd
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.linear_model import LinearRegression
+from sklearn.pipeline import Pipeline
 import mlflow
 from mlflow.models import infer_signature
 import click
@@ -20,7 +21,6 @@ def data_loader(url: str = 'https://d37ci6vzurychx.cloudfront.net/trip-data/yell
 
 @task
 def transform_data(df: pd.DataFrame):
-    dv = DictVectorizer()
     
     df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
     df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
@@ -30,25 +30,33 @@ def transform_data(df: pd.DataFrame):
     
     categorical = ['PULocationID', 'DOLocationID']
     df[categorical] = df[categorical].astype(str)
-    dicts = df[categorical].to_dict(orient='records')
-    X = dv.fit_transform(dicts)
+    X = df[categorical].to_dict(orient='records')
 
-    get_run_logger().info(f"[Q4] num rows:{X.shape} ")
+    get_run_logger().info(f"[Q4] num rows:{len(X)} ")
 
     return X, df['duration']
+
+def training_pipeline():
+    return Pipeline(
+        steps=[
+            ("dict_vectorizer", DictVectorizer()),
+            ("linear_regression", LinearRegression())
+        ]
+    )
 
 @task
 def train_model(X, y):
     
     signature = infer_signature(X, y)
-    model = LinearRegression()
-    model.fit(X, y)
-    get_run_logger().info(f"[Q5] intercept of trained model:{model.intercept_} ")
-    mlflow.log_metric("intercept", model.intercept_) # type: ignore
+    pipeline = training_pipeline()
+    
+    pipeline.fit(X, y)
+    get_run_logger().info(f"[Q5] intercept of trained model:{pipeline.named_steps["linear_regression"].intercept_} ")
+    mlflow.log_metric("intercept", pipeline.named_steps["linear_regression"].intercept_)
 
     mlflow.sklearn.log_model(
-        model, 
-        artifact_path="model",
+        pipeline, 
+        artifact_path="pipeline",
         signature=signature
     )
 
