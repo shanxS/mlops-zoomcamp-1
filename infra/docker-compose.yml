@@ -1,12 +1,10 @@
-version: '3.8'
 services:
   mlflow:
     build:
       context: ./mlflow
     image: mlflow-dev
     container_name: mlflow-server
-    ports:
-      - "5001:5000"
+    network_mode: host  # Use host network
     volumes:
       - /tmp/mlflow/mlartifacts:/mlflow/mlartifacts
       - /tmp/mlflow/runs:/mlflow/mlruns
@@ -21,7 +19,14 @@ services:
       context: ./prefect
     image: prefect-dev
     container_name: prefect-server
-    ports:
-      - "4200:4200"
+    network_mode: host  # Use host network
     volumes:
       - /tmp/prefect:/root/.prefect
+  evidently:
+    build:
+      context: ./evidently
+    image: evidently-dev
+    container_name: evidently-server
+    network_mode: host  # Use host network
+    volumes:
+      - /tmp/evidently/workspace:/app/workspace

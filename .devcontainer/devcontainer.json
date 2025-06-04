@@ -21,9 +21,15 @@
 	"containerEnv": {
 		// Ensure devcontainer and prefect are on same network: docker inspect infra_default
 		// If not, add them: docker network connect infra_default $CONTAINER_ID
-		"PREFECT_API_URL": "http://prefect-server:4200/api",
-		"MLFLOW_TRACKING_URI": "http://host.docker.internal:5001",
+		"PREFECT_API_URL": "http://localhost:4200/api",
+		"EVIDENTLY_URL": "http://localhost:4200/api",
+		"MLFLOW_TRACKING_URI": "http://localhost:5001"
 	},
+
+	"runArgs": [
+		// Uncomment to use the host's Docker daemon.
+		"--network=host"
+	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
