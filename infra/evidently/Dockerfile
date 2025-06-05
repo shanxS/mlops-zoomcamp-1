@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Evidently
-RUN pip install --no-cache-dir evidently==0.6.1
+RUN pip install --no-cache-dir evidently==0.7.7
 
 # Create workspace directory
 RUN mkdir -p /app/workspace

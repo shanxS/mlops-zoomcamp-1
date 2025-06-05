@@ -1,0 +1,59 @@
+diff --git a/infra/evidently/Dockerfile b/infra/evidently/Dockerfile
+index 401dc61..ea7ee19 100644
+--- a/infra/evidently/Dockerfile
++++ b/infra/evidently/Dockerfile
+@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
+     && rm -rf /var/lib/apt/lists/*
+ 
+ # Install Evidently
+-RUN pip install --no-cache-dir evidently==0.6.1
++RUN pip install --no-cache-dir evidently==0.7.7
+ 
+ # Create workspace directory
+ RUN mkdir -p /app/workspace
+diff --git a/pyproject.toml b/pyproject.toml
+index a115b33..e9f1609 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -42,5 +42,5 @@ prod = [
+     "pyarrow==19.0.0",
+ 
+     # for hw 5
+-    "evidently==0.6.1",
++    "evidently==0.7.7",
+ ]
+\ No newline at end of file
+diff --git a/uv.lock b/uv.lock
+index b454949..c0f6651 100644
+--- a/uv.lock
++++ b/uv.lock
+@@ -667,7 +667,7 @@ wheels = [
+ 
+ [[package]]
+ name = "evidently"
+-version = "0.6.1"
++version = "0.7.7"
+ source = { registry = "https://pypi.org/simple" }
+ dependencies = [
+     { name = "certifi" },
+@@ -696,9 +696,9 @@ dependencies = [
+     { name = "uvicorn", extra = ["standard"] },
+     { name = "watchdog" },
+ ]
+-sdist = { url = "https://files.pythonhosted.org/packages/b5/cd/0efa5a9cc4ad30fde31cd7e58b8c305da75f78a70dd02458a1cd6054e793/evidently-0.6.1.tar.gz", hash = "sha256:81ea55a508d40a83befa6d79e47bf279a3bb4bf28a9300cf35f58ba331e57abc", size = 2354178, upload-time = "2025-01-31T13:24:58.351Z" }
++sdist = { url = "https://files.pythonhosted.org/packages/2f/b1/67df3821912cee2a9f09ada90ec938f1b3a1c11b8f2e1204d9cb86ccf1bc/evidently-0.7.7.tar.gz", hash = "sha256:a41d5a618a88bbce48147f8ad961b209531c2ef1c272272f6bd1f1610790c791", size = 3882287, upload-time = "2025-06-04T14:37:41.669Z" }
+ wheels = [
+-    { url = "https://files.pythonhosted.org/packages/ff/31/7b982c2c844e4620684c1a3a899318f09e0e4f882ef3d734d774e458e44c/evidently-0.6.1-py3-none-any.whl", hash = "sha256:e01dc12f6e61be4219ec5b148a529b26d915423d337482c4dc773cce03b5b189", size = 3522738, upload-time = "2025-01-31T13:24:55.324Z" },
++    { url = "https://files.pythonhosted.org/packages/a0/46/c4751bf7f4fad261c46b7aad1a3734a759842cc8017fc85f5f89ef2c6c01/evidently-0.7.7-py3-none-any.whl", hash = "sha256:98d3d4849db4445de6e20ffb88d19fce45d9ed5516f4e62d545874293fa93b17", size = 5222821, upload-time = "2025-06-04T14:37:39.132Z" },
+ ]
+ 
+ [[package]]
+@@ -4008,7 +4008,7 @@ requires-dist = [
+ 
+ [package.metadata.requires-dev]
+ prod = [
+-    { name = "evidently", specifier = "==0.6.1" },
++    { name = "evidently", specifier = "==0.7.7" },
+     { name = "mlflow", specifier = "==2.20.4" },
+     { name = "numpy", specifier = ">=1.26.4" },
+     { name = "pandas", specifier = ">=2.2.3" },
